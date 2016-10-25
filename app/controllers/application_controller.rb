@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
-  #before_filter :authorize
+  before_filter :authorize still on page 202
+
+  def redirect_to(options = {}, response_status = {})
+    ::Rails.logger.error("Redirected by #{caller(1).first rescue "unknown"}")
+    super(options, response_status)
+  end
 
   protected
 
