@@ -6,19 +6,15 @@
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
-class ApplicationController < ActionController::Base
-  before_action :authorize
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+module CurrentCart
+  extend ActiveSupport::Concern
 
-    # ...
+  private
 
-  protected
-
-    def authorize
-      unless User.find_by(id: session[:user_id])
-        redirect_to login_url, notice: "Please log in"
-      end
+    def set_cart 
+      @cart = Cart.find(session[:cart_id])
+    rescue ActiveRecord::RecordNotFound
+      @cart = Cart.create
+      session[:cart_id] = @cart.id
     end
 end
