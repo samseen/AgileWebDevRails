@@ -7,20 +7,23 @@ Depot::Application.routes.draw do
     delete 'logout' => :destroy
   end
 
-  resources :users
+  scope '(:locale)' do
+    resources :users
 
-  resources :orders
+    resources :orders
 
-  resources :line_items
+    resources :line_items
 
-  resources :carts
+    resources :carts
 
-  get "store/index"
+    get "store/index"
 
-  resources :products do
-    get :who_bought, on: :member
+    resources :products do
+      get :who_bought, on: :member
+    end
+    root to: 'store#index', as: 'store'
   end
-  
+
   #resources :products
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -31,7 +34,7 @@ Depot::Application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
-  root to: 'store#index', as: 'store'
+  
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
